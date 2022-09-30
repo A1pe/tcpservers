@@ -71,6 +71,6 @@ void loot_data(struct inner_file_data *_ifd,int _client_port){
 	
 	sprintf(_name,"./%s/%s%c",_ifd->_file_data.client_port,_ifd->_file_data.filename,'\0');
 	
-	memcpy(_ifd->_file_data.filename,_name,sizeof(_name));
+	memcpy(_ifd->file_path,_name,sizeof(_name));
 	_ifd->_file_data.filesize = _file_box->filesize;
 }

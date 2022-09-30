@@ -6,8 +6,8 @@
 #define __PAYLOAD_DATA__
 
 #ifndef __HEADER_DATA__
-#include "/home/windows/Project_A/headers/getHeader.h"
-#endif 
+#include "/home/windows/tcp_servers/headers/getHeader.h"
+#endif
 
 #define MAXBUFS 1000
 
@@ -24,6 +24,7 @@ struct inner_header_data{
 	unsigned long fragment;
 	unsigned int cnt;
 	unsigned int compare_value;
+	unsigned long sequences;
 }__attribute__((packed));
 
 void salvage_data(struct inner_header_data * _ihd , char* main_buffer, int _clnt_sock, int key );
