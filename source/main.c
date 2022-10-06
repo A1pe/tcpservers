@@ -1,7 +1,11 @@
 #include "/home/windows/tcp_servers/headers/main.h"
+//#include<time.h>
+//clock_t start1,end1;
+//float prevsec,nowsec;
 
 int main(int argc, char *argv[]){
 
+	
 	if(argc != 2){
 		printf("Usage : %s <port>\n",argv[0]);
 		exit(1);
@@ -27,32 +31,36 @@ int main(int argc, char *argv[]){
 	
 	/////////////////////////payload start/////////////////////////
 	
-	while(ihd.cnt <= ihd.compare_value){
-		
+	while(ihd.cnt < ihd.compare_value-1){
+		//start1 =clock();
 		salvage_data(&ihd,buffer,socks[1],DOING);
 		printf("%d KB / %d KB\r",ihd.cnt,ihd.compare_value);
-
+		//end1 = clock();
+		//nowsec = (double)(end1-start1)/CLOCKS_PER_SEC;
+		//printf("%.5f\n",nowsec);
+		//prevsec = nowsec;
 	}
 	salvage_data(&ihd,buffer,socks[1],DONE);
-	printf("%d KB / %d KB\n",ihd.cnt-2,ihd.compare_value);
+	printf("%d KB / %d KB\n",ihd.cnt,ihd.compare_value);
 	
 	////////////////////////write data////////////////////////////
 	
-	
-	fwrite(buffer,sizeof(char),ihd.fragment,ifd.file_storage);
 	fclose(ifd.file_storage);
+	fwrite(buffer,sizeof(char),ihd.fragment,ifd.file_storage);
+	
 	
 	/////////////////////// crc 32 check ////////////////////////
+
  
 	crcs = getFileCRC(buffer,ihd.fragment);
 	
 	if(crcs == ihd._head_data.crc32){
 		printf("It's equal the value of server's crc32 and client's crc32\n");
-		printf("server's crc32 : %ld\nclient's crc32 : %ld\n",crcs,ihd._head_data.crc32);
+		printf("server's crc32 : %lu\nclient's crc32 : %lu\n",crcs,ihd._head_data.crc32);
 	}
 	else{
 		printf("It isn't equal the value of server's crc32 and client's crc32\n");
-		printf("server's crc32 : %ld\nclient's crc32 : %ld\n",crcs,ihd._head_data.crc32);
+		printf("server's crc32 : %lu\nclient's crc32 : %lu\n",crcs,ihd._head_data.crc32);
 	}
 	
 	///////////////////// end program ////////////////////////////

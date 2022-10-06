@@ -17,7 +17,7 @@ struct file_box{
 
 struct inner_file_data{
 	struct file_box _file_data;
-	char file_path[50];
+	char file_path[25];
 	FILE* file_storage;
 }__attribute__((packed));
 
